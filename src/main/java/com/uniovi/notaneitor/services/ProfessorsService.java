@@ -1,6 +1,9 @@
 package com.uniovi.notaneitor.services;
 
+import com.uniovi.notaneitor.entities.Mark;
 import com.uniovi.notaneitor.entities.Professor;
+import com.uniovi.notaneitor.repositories.ProfessorsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,29 +12,25 @@ import java.util.List;
 @Service
 public class ProfessorsService {
 
-    private List<Professor> professorList = new ArrayList<>();
+    @Autowired
+    private ProfessorsRepository professorsRepository;
 
 
     public void addProfessor(Professor professor) {
-        professorList.add(professor);
+        professorsRepository.save(professor);
     }
 
-    public void deleteProfessor(Long id){
-        professorList.removeIf(p -> p.getId().equals(id));
+    public void deleteProfessor(Long id) {
+        professorsRepository.deleteById(id);
     }
 
     public Professor getProfessor(Long id) {
-        return professorList.stream().filter(p -> p.getId().equals(id)).findFirst().get();
+        return professorsRepository.findById(id).get();
     }
 
-    public void editProfessor(Long id, Professor professor) {
-        for (Professor p: professorList) {
-            if(p.getId().equals(id)){
-                p.setDni(professor.getDni()!=null?professor.getDni():p.getDni());
-                p.setName(professor.getName()!=null?professor.getName():p.getName());
-                p.setSurname(professor.getSurname()!=null?professor.getSurname():p.getSurname());
-                p.setCategoria(professor.getCategoria()!=null?professor.getCategoria():p.getCategoria());
-            }
-        }
+    public Object getProfessors() {
+        List<Professor> professors = new ArrayList<>();
+        professorsRepository.findAll().forEach(professors::add);
+        return professors;
     }
 }
