@@ -5,7 +5,10 @@ import com.uniovi.notaneitor.services.MarksService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 public class MarksController {
@@ -53,5 +56,11 @@ public class MarksController {
         mark.setId(id);
         marksService.addMark(mark);
         return "redirect:/mark/details/" + id;
+    }
+
+    @RequestMapping("/mark/list/update")
+    public String updateList(Model model) {
+        model.addAttribute("markList", marksService.getMarks());
+        return "mark/list :: tableMarks";
     }
 }
