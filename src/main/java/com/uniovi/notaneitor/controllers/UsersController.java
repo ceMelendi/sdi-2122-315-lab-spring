@@ -72,14 +72,14 @@ public class UsersController {
         return "redirect:/user/details/" + id;
     }
 
-    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    /*@RequestMapping(value = "/signup", method = RequestMethod.GET)
     public String signup(@ModelAttribute("user") User user, Model model) {
         usersService.addUser(user);
         securityService.autoLogin(user.getDni(), user.getPasswordConfirm());
         return "redirect:home";
-    }
+    }*/
 
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public String signup(@Validated User user, BindingResult result) {
         signUpFormValidator.validate(user, result);
         if (result.hasErrors())
