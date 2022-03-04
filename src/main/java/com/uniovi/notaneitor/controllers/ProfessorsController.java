@@ -16,35 +16,40 @@ public class ProfessorsController {
 
     @RequestMapping("/professor/list")
     public String getList(Model model) {
-        model.addAttribute("professorList", professorsService.getProfessors());
-        return professorsService.getProfessors().toString();
+        model.addAttribute("professorsList", professorsService.getProfessors());
+        return "professor/list";
     }
 
     //add, edit, detail, delete
     @RequestMapping(value = "/professor/add", method = RequestMethod.POST)
     public String setProfessor(@ModelAttribute Professor professor){
         professorsService.addProfessor(professor);
-        return "Professor added";
+        return "redirect:/professor/list";
+    }
+
+    @RequestMapping(value = "/professor/add")
+    public String getProfessor(Model model) {
+        model.addAttribute("professorsList", professorsService.getProfessors());
+        return "professor/add";
     }
 
     @RequestMapping(value = "/professor/edit/{id}", method = RequestMethod.POST)
     public String setEdit(@ModelAttribute Professor professor, @PathVariable Long id){
         professor.setId(id);
         professorsService.addProfessor(professor);
-        return "Professor edited";
+        return "redirect:/professor/details/" + id;
     }
 
     @RequestMapping("/professor/details/{id}")
-    public String getDetail(@PathVariable Long id) {
-        return professorsService.getProfessor(id) != null
-                ? professorsService.getProfessor(id).toString()
-                : "No professor with such id";
+    public String getDetail(Model model, @PathVariable Long id) {
+        model.addAttribute("professor", professorsService.getProfessor(id));
+        return "professor/details";
     }
 
     @RequestMapping("/professor/delete/{id}")
     public String deleteProfessor(@PathVariable Long id){
         professorsService.deleteProfessor(id);
-        return "Professor deleted";
+        return "redirect:/professor/list";
     }
 
 }

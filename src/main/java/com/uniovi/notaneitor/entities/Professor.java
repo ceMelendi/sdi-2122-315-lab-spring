@@ -13,15 +13,15 @@ public class Professor {
     private String dni;
     private String name;
     private String surname;
-    private String categoria;
+    private String category;
 
     public Professor(){}
 
-    public Professor(String dni, String name, String surname, String categoria, Long id){
+    public Professor(String dni, String name, String surname, String category, Long id){
         this.dni = dni;
         this.name = name;
         this.surname = surname;
-        this.categoria = categoria;
+        this.category = category;
         this.id = id;
     }
 
@@ -49,12 +49,12 @@ public class Professor {
         this.surname = surname;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getCategory() {
+        return category;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class Professor {
                 "dni='" + dni + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
-                ", categoria='" + categoria + '\'' +
+                ", category='" + category + '\'' +
                 ", id= " + id +
                 '}';
     }
