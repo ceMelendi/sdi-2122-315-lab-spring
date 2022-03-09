@@ -99,7 +99,7 @@ class NotaneitorApplicationTests {
         //Rellenamos el formulario.
         PO_SignUpView.fillForm(driver, "77777778A", "Josefo", "Perez", "77777", "77777");
         //Comprobamos que entramos en la sección privada y nos nuestra el texto a buscar
-        String checkText =  "Notas del usuario";
+        String checkText = "Notas del usuario";
         List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText, result.get(0).getText());
     }
@@ -113,10 +113,10 @@ class NotaneitorApplicationTests {
         PO_SignUpView.fillForm(driver, "99999990A", "Josefo", "Perez", "77777",
                 "77777");
         List<WebElement> result = PO_SignUpView.checkElementByKey(driver, "Error.signup.dni.duplicate",
-                PO_Properties.getSPANISH() );
+                PO_Properties.getSPANISH());
         //Comprobamos el error de DNI repetido.
         String checkText = PO_HomeView.getP().getString("Error.signup.dni.duplicate", PO_Properties.getSPANISH());
-        Assertions.assertEquals(checkText , result.get(0).getText());
+        Assertions.assertEquals(checkText, result.get(0).getText());
     }
 
     //PR06B. Prueba del formulario de registro. Nombre corto.
@@ -192,6 +192,80 @@ class NotaneitorApplicationTests {
                 PO_Properties.getSPANISH());
         //Comprobamos el error de contraseña corta.
         String checkText = PO_HomeView.getP().getString("Error.signup.dni.length", PO_Properties.getSPANISH());
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    //Prueba del formulario de login. Identificación válida con usuario de ROL alumno
+    @Test
+    @Order(13)
+    public void PR07() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "99999990A", "123456");
+        //Comprobamos que entramos en la pagina privada de Alumno
+        String checkText = "Notas del usuario";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    //Prueba del formulario de login. Identificación válida con usuario de ROL profesor
+    @Test
+    @Order(14)
+    public void PR08() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "99999993D", "123456");
+        //Comprobamos que entramos en la pagina privada de Profesor
+        String checkText = "Notas del usuario";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    //Prueba del formulario de login. Identificación válida con usuario de ROL administrador
+    @Test
+    @Order(15)
+    public void PR09() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "99999988F", "123456");
+        //Comprobamos que entramos en la pagina privada de Administrador
+        String checkText = "Notas del usuario";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    //Prueba del formulario de login. Identificación inválida con usuario de ROL alumno
+    @Test
+    @Order(16)
+    public void PR010() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "99999990A", "");
+
+        //Comprobamos que no entramos en la pagina privada de Alumno (nos pide volver a identificarnos)
+        String checkText = "Identifícate";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
+
+        Assertions.assertEquals(checkText, result.get(0).getText());
+    }
+
+    //Prueba del formulario de login. Identificación válida y desconexión con usuario de ROL usuario
+    @Test
+    @Order(17)
+    public void PR011() {
+        //Vamos al formulario de logueo.
+        PO_HomeView.clickOption(driver, "login", "class", "btn btn-primary");
+        //Rellenamos el formulario
+        PO_LoginView.fillLoginForm(driver, "99999990A", "123456");
+        //Nos desconectamos
+        PO_HomeView.clickOption(driver, "logout", "class", "btn btn-primary");
+        //Comprobamos que entramos en la pagina privada de Alumno
+        String checkText = "Identifícate";
+        List<WebElement> result = PO_View.checkElementBy(driver, "text", checkText);
         Assertions.assertEquals(checkText, result.get(0).getText());
     }
 }
